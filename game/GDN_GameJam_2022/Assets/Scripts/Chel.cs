@@ -44,6 +44,7 @@ public class Chel : MonoBehaviour
 
     //reproducing
     public float excitementMultiplier = 1;
+    public int childrenBirthing = 1;
 
 
 
@@ -110,6 +111,8 @@ public class Chel : MonoBehaviour
 
                 //fuck
                 Debug.Log("hehe heha");
+
+                gameManager.Birth(whoAsked.gameObject.transform.position, pair.gameObject.transform.position, childrenBirthing);
 
 
                 hasReproduced = true;
