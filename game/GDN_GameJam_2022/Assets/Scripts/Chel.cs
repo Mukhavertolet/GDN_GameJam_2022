@@ -27,6 +27,7 @@ public class Chel : MonoBehaviour
     [SerializeField] private bool isHomeless = true;
     [SerializeField] private bool isBusy = false;
     [SerializeField] private bool isReady = false;
+    bool reproduceAttempt = false;
 
     private bool isAllowedToWalk = true;
 
@@ -61,6 +62,11 @@ public class Chel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isBusy && isReady && !reproduceAttempt)
+        {
+            StartCoroutine(Reproduce(excitementMultiplier, this));
+        }
+
 
         if (hunger <= 0)
             Death();
@@ -73,10 +79,6 @@ public class Chel : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(7.5f, 12.5f) / excitementMultiplier);
 
             isReady = true;
-            if (!isBusy && isReady)
-            {
-                StartCoroutine(Reproduce(excitementMultiplier));
-            }
         }
 
 
@@ -84,24 +86,49 @@ public class Chel : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator Reproduce(float excitementMultiplier)
+    private IEnumerator Reproduce(float excitementMultiplier, Chel whoAsked)
     {
+        reproduceAttempt = true;
 
-        if(AskForPair(this) != null)
-        {
-            isBusy = true;
-            //fuck
-            Debug.Log("hehe heha");
-            isReady = false;
-        }
-        else
-        {
-            //point and hearts go out
-            Debug.Log("EHEHOHUI(((");
-            yield return new WaitForSeconds(Random.Range(3f, 5f) * excitementMultiplier);
-        }
+        bool hasReproduced = false;
 
-        isBusy = false;
+
+        while (!hasReproduced)
+        {
+            Chel pair = gameManager.LookForPair(whoAsked);
+
+            if (pair != null)
+            {
+                //yield return new WaitUntil(() => pair.IsBusy() != true);
+
+                whoAsked.isBusy = true;
+                pair.isBusy = true;
+
+                whoAsked.isReady = false;
+                pair.isReady = false;
+
+
+                //fuck
+                Debug.Log("hehe heha");
+
+
+                hasReproduced = true;
+
+                whoAsked.isBusy = false;
+                pair.isBusy = false;
+
+                reproduceAttempt = false;
+                yield return null;
+            }
+            else
+            {
+                //point and hearts go out
+                Debug.Log("EHEHOHUI(((");
+
+                yield return new WaitForSeconds(Random.Range(3f, 8f) / excitementMultiplier);
+                whoAsked.isBusy = false;
+            }
+        }
 
 
         yield return null;
@@ -111,6 +138,10 @@ public class Chel : MonoBehaviour
     {
         return gameManager.LookForPair(whoAsked);
     }
+
+
+
+
 
 
 

@@ -30,17 +30,16 @@ public class GameManager : MonoBehaviour
 
 
 
-        //shove it up some ugly cycle
-        allChels.Add(firstTwoChels[0].GetComponent<Chel>());
-        allChels.Add(firstTwoChels[1].GetComponent<Chel>());
+        //first 2 chels that appear at the start of the game are shoved into the list here
+        for (int i = 0; i < 2; i++)
+        {
+            allChels.Add(firstTwoChels[i].GetComponent<Chel>());
+            firstTwoChels[i].GetComponent<Chel>().gameManager = gameObject.GetComponent<GameManager>();
 
-        firstTwoChels[0].GetComponent<Chel>().gameManager = gameObject.GetComponent<GameManager>();
-        firstTwoChels[1].GetComponent<Chel>().gameManager = gameObject.GetComponent<GameManager>();
+            firstTwoChels[i].GetComponent<Chel>().id = lastChelID + 1;
+            lastChelID += 1;
+        }
 
-        firstTwoChels[0].GetComponent<Chel>().id = lastChelID + 1;
-        lastChelID += 1;
-        firstTwoChels[1].GetComponent<Chel>().id = lastChelID + 1;
-        lastChelID += 1;
 
     }
 
