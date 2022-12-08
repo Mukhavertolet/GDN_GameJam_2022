@@ -110,7 +110,7 @@ public class Chel : MonoBehaviour
 
 
                 //fuck
-                Debug.Log("hehe heha");
+                //Debug.Log("hehe heha");
 
                 gameManager.Birth(whoAsked.gameObject.transform.position, pair.gameObject.transform.position, childrenBirthing);
 
@@ -126,7 +126,7 @@ public class Chel : MonoBehaviour
             else
             {
                 //point and hearts go out
-                Debug.Log("EHEHOHUI(((");
+                //Debug.Log("EHEHOHUI(((");
 
                 yield return new WaitForSeconds(Random.Range(3f, 8f) / excitementMultiplier);
                 whoAsked.isBusy = false;
